@@ -33,8 +33,8 @@ from lineChart import *
 
 
 MAX_WORKERS = 6
-SIMULATION_TICKS = 9000
-GENERATION_SIZE = 200
+SIMULATION_TICKS = 9500
+GENERATION_SIZE = 220
 SURVIVORS_PER_GENERATION = 20
 RANDOMS_PER_GENERATION = 5
 GUARANTEE_CHAMPION_SURVIVAL_CHANCE = 0.95
@@ -336,10 +336,10 @@ class UIWatch(UIGame):
 
         if self.game.sequential_sim is None:
             return
+        self.game.sequential_sim.evaluate()
 
         # Determine best creature, if needed
         if self._show_only_best:
-            self.game.sequential_sim.evaluate()
             best_creature = self.game.sequential_sim.ranked_creatures[0][1]
         else:
             best_creature = None
@@ -354,9 +354,15 @@ class UIWatch(UIGame):
 
         # Render info text
         percent_done = self.game.sequential_sim.get_percent_done()
-        info_text_str = "{:>3}% done".format(percent_done)
+        info_text_str = "{:>3}% done, best score: {}".format(
+            percent_done, int(self.game.sequential_sim.ranked_creatures[0][0]))
         info_text, _ = self.game.font.render(info_text_str, (255,255,255))
         self.game.screen.blit(info_text, (5,5), None)
+
+        # Render controls text
+        controls_text_str = "[b] Show only best, [p] Pause, [i] Show infos"
+        controls_text, _ = self.game.font.render(controls_text_str, (255,255,255))
+        self.game.screen.blit(controls_text, (self.game.SCREEN_WIDTH-5-controls_text.get_width(),5), None)
 
         # Draw current centers
         for idx, creature in enumerate(self.game.sequential_sim.creatures):

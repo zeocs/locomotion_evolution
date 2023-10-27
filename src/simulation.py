@@ -23,7 +23,7 @@ class Simulation:
     DAMPING = 0.05
 
     # Gravity
-    GRAVITY = (0, 1500)
+    GRAVITY = (0, 1600)
 
     GROUND_LEVEL = 1000
     WALL_HEIGHT = 550
@@ -33,9 +33,9 @@ class Simulation:
     GROUND_SLOPE_DEV_MIN = -30
     GROUND_SLOPE_DEV_MAX = 30
     GROUND_SLOPE_INCREASE = 0.04
-    GROUND_SEGMENT_MIN_LENGTH = 30
-    GROUND_SEGMENT_MAX_LENGTH = 40
-    GROUND_SEGMENTS_COUNT = 700
+    GROUND_SEGMENT_MIN_LENGTH = 35
+    GROUND_SEGMENT_MAX_LENGTH = 45
+    GROUND_SEGMENTS_COUNT = 720
     GROUND_FRICTION=8.0
 
     def __init__(self, generation, max_ticks):
