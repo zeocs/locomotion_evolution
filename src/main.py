@@ -21,6 +21,8 @@ import pathos
 from abc import ABC, abstractmethod
 
 from simulation import *
+from simulationClimber import *
+from simulationHopper import *
 from genotype import *
 from timer import *
 from generation import *
@@ -33,8 +35,8 @@ from lineChart import *
 
 
 MAX_WORKERS = 6
-SIMULATION_TICKS = 9500
-GENERATION_SIZE = 220
+SIMULATION_TICKS = 7000
+GENERATION_SIZE = 140
 SURVIVORS_PER_GENERATION = 20
 RANDOMS_PER_GENERATION = 5
 GUARANTEE_CHAMPION_SURVIVAL_CHANCE = 0.95
@@ -407,6 +409,8 @@ class Game:
     MODE_WATCH = 1
     MODE_EDIT = 2
 
+    SIMULATION_CLASS = SimulationHopper
+
     def __init__(self):
 
         # Pygame
@@ -523,7 +527,7 @@ class Game:
 
     def sim_func(generation):
         #print("Simulation started")
-        sim = Simulation(generation, SIMULATION_TICKS)
+        sim = Game.SIMULATION_CLASS(generation, SIMULATION_TICKS)
         while not sim.is_done():
             sim.do_timestep()
         sim.evaluate()
@@ -532,7 +536,7 @@ class Game:
 
     def _start_generation(self, new_generation):
         if self.next_generation_sequential:
-            self.sequential_sim = Simulation(new_generation, SIMULATION_TICKS)
+            self.sequential_sim = self.SIMULATION_CLASS(new_generation, SIMULATION_TICKS)
         else:
             split_generations = new_generation.split(MAX_WORKERS)
             self.jobs, self.done_sims = [], []
